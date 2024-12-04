@@ -6,7 +6,6 @@ def getDB():
         host="localhost",
         user="root",
         password="12345678",
-        database="final_web",
-        charset="utf8mb4"
+        database="final_web"
     )
     return connection
