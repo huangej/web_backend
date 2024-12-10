@@ -1,0 +1,44 @@
+# 忽略所有系統文件
+*.log
+*.dat
+*.ini
+*.blf
+*.regtrans-ms
+
+# 忽略系統目錄
+AppData/
+Contacts/
+Desktop/
+Documents/
+Downloads/
+Favorites/
+Links/
+Music/
+Pictures/
+Saved Games/
+Searches/
+Videos/
+
+# 忽略 IDE 文件
+.vscode/
+.idea/
+.DS_Store
+
+# 忽略 Python 文件
+__pycache__/
+*.pyc
+
+# 忽略 Node.js 文件
+node_modules/
+package-lock.json
+
+# 忽略不相關的項目目錄
+../webhw/
+../springbootmall/
+../ts_react/
+../vscode_java/
+../react-testtest/
+../sprint_unit6/
+
+# 忽略其他非項目文件
+../../*
