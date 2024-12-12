@@ -50,7 +50,6 @@ async def create_post(
 ):
     db = getDB()
     cursor = db.cursor()
-
     try:
         pic_path = save_image(post_pic)
 
