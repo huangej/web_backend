@@ -36,6 +36,8 @@ class PostUpdate(BaseModel):
     post_content: str = None
     post_date: str = None
 
+    
+
 # 新增 Post
 @router.post("/create")
 async def create_post(
@@ -120,7 +122,7 @@ async def get_post_by_id(post_id: int):
             "post_title": post[3],
             "post_content": post[4],
             "post_date": post[5],
-            "post_pic_url": f"/{post[6]}" if post[6] else None,  # 使用相對路徑
+            "post_pic_url": f"/{post[6]}" if post[6] else None,  
         }
     finally:
         cursor.close()
@@ -130,8 +132,10 @@ async def get_post_by_id(post_id: int):
 @router.put("/{post_id}")
 async def update_post(
     post_id: int,
-    post: PostUpdate,
-    post_pic: UploadFile = None
+    post_title: str = Form(None),
+    post_content: str = Form(None),
+    post_date: str = Form(None),
+    post_pic: UploadFile = File(None)
 ):
     db = getDB()
     cursor = db.cursor()
@@ -143,18 +147,15 @@ async def update_post(
 
         update_fields = []
         values = []
-        if post.group_id:
-            update_fields.append("group_id = %s")
-            values.append(post.group_id)
-        if post.post_title:
+        if post_title:
             update_fields.append("post_title = %s")
-            values.append(post.post_title)
-        if post.post_content:
+            values.append(post_title)
+        if post_content:
             update_fields.append("post_content = %s")
-            values.append(post.post_content)
-        if post.post_date:
+            values.append(post_content)
+        if post_date:
             update_fields.append("post_date = %s")
-            values.append(post.post_date)
+            values.append(post_date)
         if pic_path:
             update_fields.append("post_pic = %s")
             values.append(pic_path)
@@ -170,6 +171,7 @@ async def update_post(
     finally:
         cursor.close()
         db.close()
+
 
 # 刪除 Post
 @router.delete("/{post_id}")
@@ -192,3 +194,5 @@ async def get_image(filename: str):
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="Image not found")
     return FileResponse(file_path)
+
+
