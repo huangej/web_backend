@@ -81,17 +81,18 @@ async def get_posts():
     cursor = db.cursor()
 
     try:
-        cursor.execute("SELECT post_id, group_id, author_account, post_title, post_content, post_date, post_pic FROM post")
+        cursor.execute("SELECT p.post_id, p.group_id, i.group_name, p.author_account,  p.post_title,  p.post_content,  p.post_date,  p.post_pic FROM post p JOIN idol i ON p.group_id = i.group_id")
         posts = cursor.fetchall()
         return [
             {
                 "post_id": p[0],
                 "group_id": p[1],
-                "author_account": p[2],
-                "post_title": p[3],
-                "post_content": p[4],
-                "post_date": p[5],
-                "post_pic_url": f"/{p[6]}" if p[6] else None,  # 使用相對路徑
+                "group_name": p[2],
+                "author_account": p[3],
+                "post_title": p[4],
+                "post_content": p[5],
+                "post_date": p[6],
+                "post_pic_url": f"/{p[7]}" if p[7] else None,  # 使用相對路徑
             }
             for p in posts
         ]

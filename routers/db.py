@@ -5,7 +5,7 @@ def getDB():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="12345678",
+        password="han20000914",
         database="final_web"
     )
     return connection

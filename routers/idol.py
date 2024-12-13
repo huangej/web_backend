@@ -41,7 +41,7 @@ async def get_idols():
     try:
         cursor.execute("SELECT group_id, group_name, start_time, group_company FROM idol")
         idols = cursor.fetchall()
-        return [{"group_id": i[0], "group_name": i[1], "start_time": i[2], "group_company": i[3]} for i in idols]
+        return [{"group_id": i[0], "group_name": i[1], "group_pic": i[2],} for i in idols]
     finally:
         cursor.close()
         db.close()
