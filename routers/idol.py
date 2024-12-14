@@ -32,16 +32,17 @@ async def create_idol(idol: IdolCreate):
         cursor.close()
         db.close()
 
-# 取得所有偶像(這個是測試方便用，應該不會用到這個)
+# 取得所有偶像團體 (只返回需要的 group_id 和 group_name)
 @router.get("/")
 async def get_idols():
     db = getDB()
     cursor = db.cursor()
 
     try:
-        cursor.execute("SELECT group_id, group_name, start_time, group_company FROM idol")
+        cursor.execute("SELECT group_id, group_name FROM idol")
         idols = cursor.fetchall()
-        return [{"group_id": i[0], "group_name": i[1], "start_time": i[2], "group_company": i[3]} for i in idols]
+        # 返回格式僅包含 group_id 和 group_name
+        return [{"group_id": idol[0], "group_name": idol[1]} for idol in idols]
     finally:
         cursor.close()
         db.close()
