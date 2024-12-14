@@ -92,7 +92,7 @@ async def get_posts():
                 "post_title": p[4],
                 "post_content": p[5],
                 "post_date": p[6],
-                "post_pic_url": f"/{p[7]}" if p[7] else None,  # 使用相對路徑
+                "post_pic": p[7],  # 使用相對路徑
             }
             for p in posts
         ]
