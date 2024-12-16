@@ -101,6 +101,7 @@ async def get_posts():
         db.close()
 
 # 取得單一 Post 的詳細資訊
+# 取得單一 Post 的詳細資訊
 @router.get("/{post_id}")
 async def get_post_by_id(post_id: int):
     db = getDB()
@@ -127,6 +128,57 @@ async def get_post_by_id(post_id: int):
     finally:
         cursor.close()
         db.close()
+
+
+#作者寫得全部文章
+@router.get("/author/{author_account}")
+async def get_posts_by_author(author_account: str):
+    db = getDB()
+    cursor = db.cursor()
+    try:
+        # 修改查詢：聯結 post 和 idol，並過濾 author_account
+        cursor.execute(
+            """
+            SELECT 
+                p.post_id, 
+                p.post_title, 
+                p.post_content, 
+                p.post_date, 
+                p.author_account, 
+                p.post_pic, 
+                p.group_id, 
+                i.group_name
+            FROM post p
+            JOIN idol i ON p.group_id = i.group_id
+            WHERE p.author_account = %s
+            """,
+            (author_account,),
+        )
+        posts = cursor.fetchall()
+        
+        # 如果沒有找到文章，返回 404
+        if not posts:
+            raise HTTPException(status_code=404, detail="No posts found for this author")
+
+        # 返回文章列表
+        return [
+            {
+                "post_id": post[0],
+                "post_title": post[1],
+                "post_content": post[2],
+                "post_date": post[3],
+                "author_account": post[4],
+                "post_pic": post[5],
+                "group_id": post[6],
+                "group_name": post[7], 
+            }
+            for post in posts
+        ]
+    finally:
+        cursor.close()
+        db.close()
+
+
 
 # 更新 Post
 @router.put("/{post_id}")
