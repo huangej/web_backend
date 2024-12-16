@@ -67,7 +67,7 @@ async def create_idol(
         cursor.close()
         db.close()
 
-# 取得所有偶像(這個是測試方便用，應該不會用到這個)
+#取得所有偶像團體 (只返回需要的 group_id 和 group_name)
 @router.get("/")
 async def get_idols():
     db = getDB()
